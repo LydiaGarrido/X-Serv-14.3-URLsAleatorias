@@ -11,6 +11,7 @@ SAT and SARO subjects (Universidad Rey Juan Carlos)
 """
 
 import socket
+import random
 
 # Create a TCP objet socket and bind it to a port
 # Port should be 80, but since it needs root privileges,
@@ -28,7 +29,6 @@ mySocket.listen(5)
 # Accept connections, read incoming data, and answer back an HTML page
 #  (in an almost-infinite loop; the loop can be stopped with Ctrl+C)
 
-import random 
 
 try:
     while True:
@@ -37,12 +37,14 @@ try:
         print('Request received:')
         print(recvSocket.recv(2048))
         print('Answering back...')
-        aleatorio = str(random.randint(0,1000000000)) 
+        aleatorio = str(random.randint(0, 1000000000))
         recvSocket.send(b"HTTP/1.1 200 OK\r\n\r\n" +
                         b"<html><body><h1>Hola.</h1>" +
                         b"<p>And in particular hello to you, " +
                         bytes(address[0], 'utf-8') +
-                        b"</p><a href=" + bytes(aleatorio, 'utf-8') + 							b">Dame otra</a>"
+                        b"</p><a href=" +
+                        bytes(aleatorio, 'utf-8') +
+                        b">Dame otra</a>"
                         b"</body></html>" +
                         b"\r\n")
         recvSocket.close()
